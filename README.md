@@ -10,7 +10,7 @@ This is a MERN stack application that uses the google books api. It allows users
 - [Questions](https://github.com/matty-bennett/book-search#questions)
 
 ### Usage
-Check out the deployed website [here](https://guarded-everglades-16562.herokuapp.com/).
+Check out the deployed website [here](https://still-everglades-81622.herokuapp.com/)
 
 ### Technology
 - React
