@@ -23,11 +23,20 @@ const typeDefs = gql`
 
     type Book {
         bookId: String
-        authors: [String]
         description: String
+        authors: [String]
         title: String
         image: String
         link: String
+    }
+
+    input bookInput {
+    bookId: String
+    description: String
+    authors: [String]
+    title: String
+    image: String
+    link: String
     }
 
     type Auth {

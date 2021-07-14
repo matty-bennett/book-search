@@ -25,6 +25,8 @@ const SavedBooks = () => {
         variables: { bookId },
       });
 
+      console.log(data);
+
       if (error) {
         throw new Error('Oops, something went wrong!');
       }
@@ -37,7 +39,7 @@ const SavedBooks = () => {
   };
 
   // if data isn't here yet, say so
-  if (!userDataLength) {
+  if (loading) {
     return <h2>LOADING...</h2>;
   }
 

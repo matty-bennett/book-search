@@ -14,5 +14,8 @@
   "license": "ISC",
   "devDependencies": {
     "concurrently": "^5.1.0"
+  },
+  "dependencies": {
+    "graphql-tag": "^2.12.5"
   }
 }
