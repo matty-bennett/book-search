@@ -7,9 +7,11 @@ import { REMOVE_BOOK } from "../utils/mutations";
 import { GET_ME } from "../utils/queries"
 
 const SavedBooks = () => {
-  const [removeBook, { error }] = useMutation(REMOVE_BOOK);
-  const {loading, data } = useQuery(GET_ME);
-  const userData = data?.me || {};
+  const { loading, data: userData } = useQuery(GET_ME);
+
+  // use this to determine if `useEffect()` hook needs to run again
+  const [removeBook] = useMutation(REMOVE_BOOK);
+
 
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
   const handleDeleteBook = async (bookId) => {
@@ -20,18 +22,13 @@ const SavedBooks = () => {
     }
 
     try {
-      const { data } = await removeBook({
-        variables: { bookId },
+      await removeBook({
+        variables: { bookId: bookId }
       });
 
-      console.log(data);
-
-      if (error) {
-        throw new Error("Oops, something went wrong!");
-      }
-
-      // upon success, remove book's id from localStorage
       removeBookId(bookId);
+      console.log(bookId);
+
     } catch (err) {
       console.error(err);
     }
@@ -43,20 +40,22 @@ const SavedBooks = () => {
   }
 
   return (
-    <>
+    <React.Fragment>
       <Jumbotron fluid className='text-light bg-dark'>
         <Container>
           <h1>Viewing saved books!</h1>
         </Container>
       </Jumbotron>
+      {userData ? (
       <Container>
         <h2>
-          {userData.savedBooks.length
-            ? `Viewing ${userData.savedBooks.length} saved ${userData.savedBooks.length === 1 ? 'book' : 'books'}:`
+          {userData.me.savedBooks.length
+            ? `Viewing ${userData.me.savedBooks.length} saved ${userData.me.savedBooks.length === 1 ? 'book' : 'books'}:`
             : 'You have no saved books!'}
+            
         </h2>
         <CardColumns>
-          {userData.savedBooks.map((book) => {
+          {userData.me.savedBooks.map((book) => {
             return (
               <Card key={book.bookId} border='dark'>
                 {book.image ? <Card.Img src={book.image} alt={`The cover for ${book.title}`} variant='top' /> : null}
@@ -73,7 +72,8 @@ const SavedBooks = () => {
           })}
         </CardColumns>
       </Container>
-    </>
+  	) : null}
+		</React.Fragment>
   );
 };
 
